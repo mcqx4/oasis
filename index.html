@@ -608,15 +608,33 @@
         </div>
     </footer>
 
-    <!-- ElevenLabs ConvAI Widget будет автоматически отображаться как floating в bottom-right -->
-    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+    <!-- ElevenLabs ConvAI Widget -->
+    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" type="text/javascript"></script>
     <elevenlabs-convai agent-id="agent_01jzwbdv50fbsvvfxhe8ptw8dq"></elevenlabs-convai>
 
     <script>
-        // Запускаем проверку после загрузки страницы
-        window.addEventListener('load', () => {
-            console.log('ElevenLabs widget should be floating in bottom-right corner');
-            console.log('Partnership links should work with regular anchor tags');
+        // Проверка загрузки виджета ElevenLabs
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('Checking for ElevenLabs widget...');
+            
+            // Проверяем наличие элемента виджета
+            const widget = document.querySelector('elevenlabs-convai');
+            if (widget) {
+                console.log('Widget element found:', widget);
+                console.log('Agent ID:', widget.getAttribute('agent-id'));
+            } else {
+                console.error('Widget element not found!');
+            }
+            
+            // Дополнительная проверка через несколько секунд
+            setTimeout(() => {
+                const widgetCheck = document.querySelector('elevenlabs-convai');
+                if (widgetCheck && widgetCheck.shadowRoot) {
+                    console.log('Widget loaded successfully with shadow DOM');
+                } else {
+                    console.warn('Widget may not be fully loaded');
+                }
+            }, 3000);
         });
 
         // Плавная прокрутка для навигации
