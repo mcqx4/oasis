@@ -1,0 +1,670 @@
+.partnership-section {
+            margin: 30px 0;
+            position: relative;
+            z-index: 5;
+        }<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Медведь - Голосовой ассистент Oasis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4a5568;
+            text-decoration: none;
+        }
+
+        .oasis-text {
+            color: #667eea;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #4a5568;
+            margin-left: 30px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #667eea;
+        }
+
+        main {
+            margin-top: 80px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+            color: white;
+            position: relative;
+            background-image: url('image.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 60px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .assistant-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 60px 0;
+            z-index: 2;
+        }
+
+        .widget-wrapper {
+            position: relative;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .widget-wrapper.widget-loaded {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .widget-wrapper:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            pointer-events: none;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+        }
+
+        .floating-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 50px;
+            left: 50px;
+        }
+
+        .floating-circle:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 100px;
+            left: 100px;
+            animation-direction: reverse;
+            animation-duration: 15s;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .status-text {
+            margin-top: 30px;
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .features {
+            background: white;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .features::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 49%, rgba(102, 126, 234, 0.02) 50%, transparent 51%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #4a5568;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-card p {
+            color: #6c757d;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            color: #4a5568;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #6c757d;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            padding: 80px 0;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><polygon points="100,10 40,180 160,180" fill="rgba(255,255,255,0.02)"/></svg>');
+            background-size: 100px 100px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 30px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: left;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-left h3,
+        .footer-right h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .footer-left p,
+        .footer-right p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            margin-top: 15px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            margin-right: 20px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+            text-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+        }
+
+        .instinct-contacts {
+            font-size: 0.95rem;
+        }
+
+        .instinct-contacts a {
+            color: #ffd700;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .instinct-contacts a:hover {
+            color: #ffed4a;
+        }
+
+        .instinct-contacts p {
+            margin-bottom: 10px;
+        }
+
+        .contact-group {
+            margin-bottom: 15px;
+        }
+
+        .contact-label {
+            display: block;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .contact-group a {
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        /* Стили для ElevenLabs виджета */
+        elevenlabs-convai {
+            display: block !important;
+            margin: 0 auto;
+            /* Убираем трансформации, которые могут мешать */
+        }
+
+        /* Обеспечиваем корректную загрузку виджета */
+        elevenlabs-convai iframe {
+            border-radius: 50% !important;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            .hero {
+                padding: 40px 0;
+                background-size: cover;
+                background-position: center;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                text-align: center;
+            }
+
+            .footer-links a {
+                display: block;
+                margin: 5px 0;
+            }
+
+            .logo-container {
+                margin: 30px auto;
+                max-width: 90%;
+            }
+
+            .partnership-logo {
+                max-width: 100%;
+            }
+
+            .call-to-action p {
+                font-size: 1.2rem;
+            }
+
+            .sub-text {
+                font-size: 1rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo"><span class="oasis-text">Oasis</span> AI</a>
+                <nav>
+                    <a href="#about">О проекте</a>
+                    <a href="#features">Возможности</a>
+                    <a href="#contact">Контакты</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Встречайте Медведя</h1>
+                <p>Ваш персональный голосовой ассистент от Oasis. Поговорите с ним о комфорте, технологиях и обо всём, что вас интересует.</p>
+
+                <div class="hero-content">
+                    <div class="partnership-section">
+                        <div class="logo-container" style="position: relative !important; z-index: 999 !important; padding: 10px !important; margin: 20px auto !important;">
+                            <img src="logo.png" alt="Oasis × Instinct" class="partnership-logo" style="position: relative !important; z-index: 1000 !important; width: 100% !important; height: auto !important; max-width: 500px !important; object-fit: contain !important;">
+                        </div>
+                    </div>
+
+                    <div class="call-to-action">
+                        <p>Найдите Медведя в правом нижнем углу экрана</p>
+                        <p class="sub-text">Нажмите на него и начните общение!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="container">
+                <h2 class="section-title">Что умеет Медведь?</h2>
+                <p class="section-subtitle">Наш ИИ-ассистент объединяет в себе мудрость медведя и современные технологии Oasis</p>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🏠</div>
+                        <h3>Эксперт по комфорту</h3>
+                        <p>Расскажет всё о продуктах Oasis и поможет выбрать идеальное решение для вашего дома</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🗣️</div>
+                        <h3>Естественное общение</h3>
+                        <p>Говорите с Медведем как с другом — он понимает речь и отвечает медвежьим голосом</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🧠</div>
+                        <h3>Умный советчик</h3>
+                        <p>Получайте персональные рекомендации и полезные советы по созданию комфортного пространства</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>Быстрые ответы</h3>
+                        <p>Мгновенно находит информацию о товарах, услугах и характеристиках продукции Oasis</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🔧</div>
+                        <h3>Техническая поддержка</h3>
+                        <p>Поможет с настройкой, эксплуатацией и обслуживанием вашей техники Oasis</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">🌟</div>
+                        <h3>Доступен 24/7</h3>
+                        <p>Медведь всегда готов помочь — в любое время дня и ночи, круглый год</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section" id="about">
+            <div class="container">
+                <h2>Oasis вашего комфорта круглый год</h2>
+                <p style="margin: 20px 0; font-size: 1.2rem; opacity: 0.9; position: relative; z-index: 2;">Медведь — это мост между традиционным комфортом и современными технологиями. Он воплощает философию Oasis: создавать продукты, которые становятся вашими надежными помощниками на долгие годы.</p>
+                <a href="https://oasis-home.ru/" class="cta-button">Узнать больше об Oasis</a>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <h3>Oasis</h3>
+                    <p>Медведь — ваш персональный гид в мире комфорта</p>
+                    <div class="footer-links">
+                        <div class="contact-group">
+                            <a href="tel:8-800-700-0098">8-800-700-0098</a>
+                            <a href="tel:+78632042040">+7 (863) 204-20-40</a>
+                        </div>
+                        <div class="contact-group">
+                            <a href="mailto:service@forteholding.ru">service@forteholding.ru</a>
+                            <a href="mailto:b2b@forteholding.ru">b2b@forteholding.ru</a>
+                        </div>
+                        <a href="https://oasis-home.ru/">oasis-home.ru</a>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <h3>Instinct</h3>
+                    <div class="instinct-contacts">
+                        <p><a href="mailto:anna.itina@instinct.ru">anna.itina@instinct.ru</a></p>
+                        <p><a href="tel:+74957834446">+7 (495) 783-44-46</a></p>
+                        <p>Дербеневская наб., д. 7, стр. 8</p>
+                    </div>
+                </div>
+            </div>
+            <p>&copy; 2025 Oasis × Instinct. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- ElevenLabs ConvAI Widget будет автоматически отображаться как floating в bottom-right -->
+    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+    <elevenlabs-convai agent-id="agent_01jzwbdv50fbsvvfxhe8ptw8dq"></elevenlabs-convai>
+
+    <script>
+        // Запускаем проверку после загрузки страницы
+        window.addEventListener('load', () => {
+            console.log('ElevenLabs widget should be floating in bottom-right corner');
+            console.log('Partnership links should work with regular anchor tags');
+        });
+
+        // Плавная прокрутка для навигации
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Анимация появления элементов при скролле
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Наблюдаем за карточками функций
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Параллакс эффект для фона
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero::before');
+            if (parallax) {
+                const speed = scrolled * 0.5;
+                document.querySelector('.hero').style.transform = `translateY(${speed}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
